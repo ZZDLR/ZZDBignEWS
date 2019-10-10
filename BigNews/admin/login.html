@@ -97,6 +97,8 @@
               $('#myModal').modal();
               //(3)用户点击确认之后跳转首页 (用户点击确认，模态框消失之后触发)
               $('#myModal').on('hidden.bs.modal', function (e) {
+                 //将服务器返回的token存入localstorage
+                 localStorage.setItem('token',backData.token);
                 // do something...
                 //跳转首页啊
                 window.location.href = './index.html';
