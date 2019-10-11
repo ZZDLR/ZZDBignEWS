@@ -113,7 +113,7 @@
                 type: 'get',
                 dataType: 'json',
                 success: function (backData) {
-                    console.log(backData);
+                    // console.log(backData);
                     $('#selCategory').html(template('cat_list', backData));
 
                 }
@@ -124,7 +124,7 @@
             $('#btnSearch').on('click', function (e) {
                 //阻止默认跳转(表单)
                 e.preventDefault();
-                getArticleList(1);
+                getArticleList(1, true);
 
             });
 
@@ -164,8 +164,12 @@
                               方案二： 给getArticleList添加布尔类型参数，只有点击筛选才需要调用loadPagination()
                         */
                         //只有点击的页数和当前页数不一致才请求数据
-
+                        // if(startPage!=page){
                         getArticleList(page);
+
+                        // }
+
+
                     }
                 });
 
@@ -176,7 +180,7 @@
             * @param {type} currentPage:当前页
             * @return: 
             */
-            function getArticleList(currentPage) {
+            function getArticleList(currentPage, flag) {
                 $.ajax({
                     url: BigNew.article_query,
                     type: 'get',
@@ -185,12 +189,17 @@
                         type: $('#selCategory').val(),
                         state: $('#selStatus').val(),
                         page: currentPage,
-                        perpage: 5
+                        perpage: 10
                     },
                     success: function (backData) {
-                        console.log(backData);
+                        // console.log(backData);
                         $('.table>tbody').html(template('art_list', backData));
-                        loadPagination(backData.data.totalPage, currentPage);
+
+                        //如果是筛选按钮： 需要加载分页插件   如果点击的是页面 ： 不需要重新加载分页插件
+                        if (flag) {
+                            loadPagination(backData.data.totalPage, currentPage);
+                        }
+
                     }
                 });
 
