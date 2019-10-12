@@ -94,7 +94,9 @@
             <td class="text-center">{{ v.date }}</td>
             <td class="text-center">{{ v.state }}</td>
             <td class="text-center">
-                <a href="article_edit.html?id={{ v.id }}" class="btn btn-default btn-xs">编辑</a>
+                <!-- <a href="article_edit.html?id={{ v.id }}" class="btn btn-default btn-xs">编辑</a> -->
+                <a href="./article_edit.html?id={{ v.id }}" data-id="{{ v.id }}" class="btn btn-default btn-xs eidt">编辑</a>
+
                 <a href="javascript:void(0);" data-id="{{ v.id }}" class="btn btn-danger btn-xs delete">删除</a>
             </td>
         </tr>
@@ -205,6 +207,40 @@
 
 
             }
+
+        });
+    </script>
+    <script>
+        $(function () {
+            /*3.删除文章：
+             3.1 给删除按钮注册委托事件（动态添加的元素需要注册动态事件）
+             3.2 获取当前点击按钮自定义属性 data-id
+             3.3 ajax发送请求
+             3.4 响应之后刷新页面 
+            */
+            $('table>tbody').on('click', '.delete', function () {
+                if (confirm('确认删除吗')) {
+                    $.ajax({
+                        url: BigNew.article_delete,
+                        type: 'post',
+                        dataType: 'json',
+                        data: {
+                            id: $(this).attr('data-id')
+                        },
+                        success: function (backData) {
+                            console.log(backData);
+                            if (backData.code == 204) {
+                                alert('删除成功');
+                                window.location.reload();
+                            } else {
+                                alert(backData.msg);
+
+                            }
+                        }
+                    });
+                };
+
+            });
 
         });
     </script>
