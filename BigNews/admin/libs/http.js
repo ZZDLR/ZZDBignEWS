@@ -4,7 +4,7 @@
 (function(w){
     //项目基地址
     var baseURL = 'http://localhost:8080/api/v1';
-
+   
     var BigNew = {
         baseURL:baseURL,//基地址
         user_login:      baseURL + '/admin/user/login',//用户登录
